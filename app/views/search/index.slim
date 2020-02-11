@@ -1,0 +1,35 @@
+doctype html
+html lang="en"
+  head
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", :media => "all"
+  body
+    = form_tag search_index_path, :method => 'get' do
+      = "Nazwa książki:"
+      = text_field_tag :search, params[:search]
+      = submit_tag "Wyszukaj"
+      - if @description.length == 4
+        br
+        = "source: www.goodreads.com"
+        br
+        = "book image: "
+        br
+        = image_tag(@description[3], class: "circle")
+        br
+        = "title: " 
+        = @description[2]
+        br
+        = "author: " 
+        = @description[1]
+        br
+        = "description:"
+        = @description[0]
+    = paginate @books
+    table.table.table-striped
+      tbody
+        - @books.each do |book|
+          - if !book.kind_of?(Array)
+            tr
+              td
+                = book
+            tr
